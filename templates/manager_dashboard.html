@@ -3,21 +3,43 @@
 {% block title %}Manager Dashboard - FeedbackHub{% endblock %}
 
 {% block content %}
-<!-- Welcome Header -->
+<!-- Professional Header -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card bg-gradient border-0 shadow-sm">
-            <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="display-6 mb-2 text-white">
-                            <i class="fas fa-user-tie me-3 text-warning"></i>Manager Dashboard
-                        </h1>
-                        <p class="lead mb-0 text-white-50">Welcome back, {{ user.name }}</p>
+        <div class="professional-header bg-white border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="header-gradient p-5">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-center">
+                            <div class="manager-avatar bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center me-4" 
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-user-tie fa-2x text-white"></i>
+                            </div>
+                            <div>
+                                <h1 class="display-5 fw-bold text-white mb-2">{{ user.name }}</h1>
+                                <p class="h5 text-white-50 mb-1">Team Manager</p>
+                                <div class="d-flex align-items-center text-white-50">
+                                    <i class="fas fa-users me-2"></i>
+                                    <span>{{ employees|length }} Direct Reports</span>
+                                    <span class="mx-3">•</span>
+                                    <i class="fas fa-calendar me-2"></i>
+                                    <span>{{ (sentiment_stats.positive + sentiment_stats.neutral + sentiment_stats.negative) }} Total Reviews</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-end">
-                        <div class="badge bg-warning text-dark fs-6 px-3 py-2">
-                            <i class="fas fa-users me-2"></i>{{ employees|length }} Team Members
+                    <div class="col-md-4 text-end">
+                        <div class="performance-indicator">
+                            <div class="text-white-50 small mb-1">Team Performance</div>
+                            <div class="h2 text-white fw-bold mb-1">
+                                {% set total = sentiment_stats.positive + sentiment_stats.neutral + sentiment_stats.negative %}
+                                {% if total > 0 %}
+                                    {{ ((sentiment_stats.positive / total) * 100) | round | int }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </div>
+                            <div class="small text-white-50">Positive feedback ratio</div>
                         </div>
                     </div>
                 </div>
@@ -26,41 +48,84 @@
     </div>
 </div>
 
-<!-- Quick Stats Overview -->
-<div class="row mb-4">
-    <div class="col-md-3">
-        <div class="card text-center border-0 shadow-sm bg-success bg-opacity-10">
-            <div class="card-body py-4">
-                <i class="fas fa-smile fa-3x text-success mb-3"></i>
-                <h2 class="display-6 fw-bold text-success">{{ sentiment_stats.positive }}</h2>
-                <p class="text-success fw-semibold mb-0">Positive Feedback</p>
+<!-- Professional Metrics Grid -->
+<div class="row mb-5">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="metric-card bg-white rounded-4 shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="metric-icon bg-success bg-opacity-10 rounded-3 p-3 mb-3">
+                            <i class="fas fa-thumbs-up fa-lg text-success"></i>
+                        </div>
+                        <div class="metric-value h2 fw-bold text-dark mb-1">{{ sentiment_stats.positive }}</div>
+                        <div class="metric-label text-muted">Positive Reviews</div>
+                        <div class="metric-trend text-success small mt-2">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            {% set total = sentiment_stats.positive + sentiment_stats.neutral + sentiment_stats.negative %}
+                            {% if total > 0 %}{{ ((sentiment_stats.positive / total) * 100) | round | int }}%{% else %}0%{% endif %} of total
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-center border-0 shadow-sm bg-warning bg-opacity-10">
-            <div class="card-body py-4">
-                <i class="fas fa-meh fa-3x text-warning mb-3"></i>
-                <h2 class="display-6 fw-bold text-warning">{{ sentiment_stats.neutral }}</h2>
-                <p class="text-warning fw-semibold mb-0">Neutral Feedback</p>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="metric-card bg-white rounded-4 shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="metric-icon bg-warning bg-opacity-10 rounded-3 p-3 mb-3">
+                            <i class="fas fa-minus-circle fa-lg text-warning"></i>
+                        </div>
+                        <div class="metric-value h2 fw-bold text-dark mb-1">{{ sentiment_stats.neutral }}</div>
+                        <div class="metric-label text-muted">Neutral Reviews</div>
+                        <div class="metric-trend text-warning small mt-2">
+                            <i class="fas fa-equals me-1"></i>
+                            {% if total > 0 %}{{ ((sentiment_stats.neutral / total) * 100) | round | int }}%{% else %}0%{% endif %} of total
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-center border-0 shadow-sm bg-danger bg-opacity-10">
-            <div class="card-body py-4">
-                <i class="fas fa-frown fa-3x text-danger mb-3"></i>
-                <h2 class="display-6 fw-bold text-danger">{{ sentiment_stats.negative }}</h2>
-                <p class="text-danger fw-semibold mb-0">Needs Attention</p>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="metric-card bg-white rounded-4 shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="metric-icon bg-danger bg-opacity-10 rounded-3 p-3 mb-3">
+                            <i class="fas fa-exclamation-triangle fa-lg text-danger"></i>
+                        </div>
+                        <div class="metric-value h2 fw-bold text-dark mb-1">{{ sentiment_stats.negative }}</div>
+                        <div class="metric-label text-muted">Needs Improvement</div>
+                        <div class="metric-trend text-danger small mt-2">
+                            <i class="fas fa-arrow-down me-1"></i>
+                            {% if total > 0 %}{{ ((sentiment_stats.negative / total) * 100) | round | int }}%{% else %}0%{% endif %} of total
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-center border-0 shadow-sm bg-info bg-opacity-10">
-            <div class="card-body py-4">
-                <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
-                <h2 class="display-6 fw-bold text-info">{{ (sentiment_stats.positive + sentiment_stats.neutral + sentiment_stats.negative) }}</h2>
-                <p class="text-info fw-semibold mb-0">Total Feedback</p>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="metric-card bg-white rounded-4 shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="metric-icon bg-primary bg-opacity-10 rounded-3 p-3 mb-3">
+                            <i class="fas fa-chart-bar fa-lg text-primary"></i>
+                        </div>
+                        <div class="metric-value h2 fw-bold text-dark mb-1">{{ (sentiment_stats.positive + sentiment_stats.neutral + sentiment_stats.negative) }}</div>
+                        <div class="metric-label text-muted">Total Reviews</div>
+                        <div class="metric-trend text-primary small mt-2">
+                            <i class="fas fa-calendar me-1"></i>All time
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -111,77 +176,124 @@
     </div>
 </div>
 
-<!-- Team Overview -->
-<div class="row mb-4">
+<!-- Professional Team Grid -->
+<div class="row mb-5">
     <div class="col-12">
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <h5 class="mb-0 text-dark">
-                    <i class="fas fa-users me-2 text-primary"></i>Your Team
-                </h5>
-                <span class="badge bg-primary">{{ employees|length }} members</span>
+        <div class="section-header mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="section-title fw-bold text-dark mb-1">Team Members</h2>
+                    <p class="section-subtitle text-muted mb-0">Manage and review your direct reports</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-download me-2"></i>Export Report
+                    </button>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus me-2"></i>Add Review
+                    </button>
+                </div>
             </div>
-            <div class="card-body p-4">
-                <div class="row g-4">
-                    {% for employee in employees %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm employee-card">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="avatar-circle bg-primary text-white me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 48px; height: 48px; border-radius: 50%;">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="card-title mb-1 fw-bold">{{ employee.name }}</h6>
-                                        <small class="text-muted">Team Member</small>
-                                    </div>
-                                    {% if feedback_summary[employee.id].unacknowledged > 0 %}
-                                    <span class="badge bg-warning text-dark">
-                                        {{ feedback_summary[employee.id].unacknowledged }} unread
-                                    </span>
-                                    {% endif %}
+        </div>
+        
+        <div class="team-grid">
+            <div class="row g-4">
+                {% for employee in employees %}
+                <div class="col-lg-6">
+                    <div class="employee-card bg-white rounded-4 shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+                            <!-- Employee Header -->
+                            <div class="employee-header d-flex align-items-center mb-4">
+                                <div class="employee-avatar bg-gradient rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                     style="width: 56px; height: 56px;">
+                                    <span class="text-white fw-bold fs-5">{{ employee.name[0] }}</span>
                                 </div>
-                                
-                                <div class="stats-grid mb-3">
-                                    <div class="row text-center">
-                                        <div class="col-6">
-                                            <div class="stat-item">
-                                                <div class="fw-bold text-primary fs-5">{{ feedback_summary[employee.id].total_feedback }}</div>
-                                                <small class="text-muted">Feedback</small>
-                                            </div>
+                                <div class="flex-grow-1">
+                                    <h5 class="employee-name fw-bold text-dark mb-1">{{ employee.name }}</h5>
+                                    <div class="employee-meta d-flex align-items-center text-muted small">
+                                        <i class="fas fa-user-circle me-2"></i>
+                                        <span>Team Member</span>
+                                        {% if feedback_summary[employee.id].unacknowledged > 0 %}
+                                        <span class="mx-2">•</span>
+                                        <span class="badge bg-warning text-dark">
+                                            {{ feedback_summary[employee.id].unacknowledged }} pending
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light" data-bs-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ url_for('submit_feedback', employee_id=employee.id) }}">
+                                            <i class="fas fa-plus me-2"></i>Give Feedback
+                                        </a></li>
+                                        <li><a class="dropdown-item" href="{{ url_for('feedback_history', employee_id=employee.id) }}">
+                                            <i class="fas fa-history me-2"></i>View History
+                                        </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Employee Stats -->
+                            <div class="employee-stats mb-4">
+                                <div class="row g-3">
+                                    <div class="col-4 text-center">
+                                        <div class="stat-box bg-light rounded-3 p-3">
+                                            <div class="stat-number h5 fw-bold text-dark mb-0">{{ feedback_summary[employee.id].total_feedback }}</div>
+                                            <div class="stat-label small text-muted">Reviews</div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="stat-item">
-                                                {% if feedback_summary[employee.id].latest_feedback %}
-                                                <div class="fw-bold text-success fs-6">
-                                                    {{ feedback_summary[employee.id].latest_feedback.created_at.strftime('%b %d') }}
-                                                </div>
-                                                <small class="text-muted">Last feedback</small>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="stat-box bg-light rounded-3 p-3">
+                                            {% if feedback_summary[employee.id].latest_feedback %}
+                                            <div class="stat-number h6 fw-bold text-success mb-0">
+                                                {{ feedback_summary[employee.id].latest_feedback.created_at.strftime('%b %d') }}
+                                            </div>
+                                            <div class="stat-label small text-muted">Last Review</div>
+                                            {% else %}
+                                            <div class="stat-number h6 fw-bold text-muted mb-0">-</div>
+                                            <div class="stat-label small text-muted">No Reviews</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <div class="stat-box bg-light rounded-3 p-3">
+                                            <div class="stat-number h6 fw-bold text-primary mb-0">
+                                                {% if feedback_summary[employee.id].unacknowledged > 0 %}
+                                                    {{ feedback_summary[employee.id].unacknowledged }}
                                                 {% else %}
-                                                <div class="fw-bold text-muted fs-6">-</div>
-                                                <small class="text-muted">No feedback</small>
+                                                    0
                                                 {% endif %}
                                             </div>
+                                            <div class="stat-label small text-muted">Pending</div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="d-grid gap-2">
-                                    <a href="{{ url_for('submit_feedback', employee_id=employee.id) }}" 
-                                       class="btn btn-primary btn-sm">
-                                        <i class="fas fa-plus me-2"></i>Give Feedback
-                                    </a>
-                                    <a href="{{ url_for('feedback_history', employee_id=employee.id) }}" 
-                                       class="btn btn-outline-secondary btn-sm">
-                                        <i class="fas fa-history me-2"></i>View History
-                                    </a>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="employee-actions">
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <a href="{{ url_for('submit_feedback', employee_id=employee.id) }}" 
+                                           class="btn btn-primary w-100 btn-sm">
+                                            <i class="fas fa-plus me-2"></i>Give Feedback
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="{{ url_for('feedback_history', employee_id=employee.id) }}" 
+                                           class="btn btn-outline-secondary w-100 btn-sm">
+                                            <i class="fas fa-history me-2"></i>History
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>

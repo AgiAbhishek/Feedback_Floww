@@ -81,8 +81,10 @@
     {% endwith %}
 
     <!-- Main Content -->
-    <main class="container my-4">
-        {% block content %}{% endblock %}
+    <main class="container-fluid px-4 py-4" style="background-color: #f8f9fa;">
+        <div class="container-xl">
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
     <!-- Footer -->
