@@ -619,10 +619,28 @@ main {
 
 .manager-portal {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    color: #333 !important;
 }
 
 .employee-portal {
     background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+    color: #333 !important;
+}
+
+.manager-portal h4,
+.manager-portal p,
+.manager-portal .text-muted {
+    color: #333 !important;
+}
+
+.employee-portal h4,
+.employee-portal p,
+.employee-portal .text-muted {
+    color: #333 !important;
+}
+
+.portal-features .text-muted {
+    color: #666 !important;
 }
 
 .portal-icon .icon-wrapper {
@@ -677,6 +695,21 @@ main {
     border: 1px solid #dee2e6;
     border-radius: 10px;
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.demo-credentials h6,
+.demo-credentials .fw-semibold,
+.demo-credentials .text-muted,
+.demo-credentials .small {
+    color: #333 !important;
+}
+
+.credential-section {
+    color: #333 !important;
+}
+
+.credential-section .fw-semibold {
+    color: #333 !important;
 }
 
 .credential-section button {

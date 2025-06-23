@@ -34,23 +34,23 @@
                                             <i class="fas fa-user-tie fa-2x text-primary"></i>
                                         </div>
                                     </div>
-                                    <h4 class="fw-bold text-dark mb-3">Manager Portal</h4>
-                                    <p class="text-muted mb-4">
+                                    <h4 class="fw-bold mb-3" style="color: #333 !important;">Manager Portal</h4>
+                                    <p class="mb-4" style="color: #666 !important;">
                                         Access team management dashboard, submit employee feedback, 
                                         and view performance analytics
                                     </p>
                                     <div class="portal-features mb-4">
                                         <div class="feature-item d-flex align-items-center mb-2">
                                             <i class="fas fa-users text-primary me-2"></i>
-                                            <small class="text-muted">Team Management</small>
+                                            <small style="color: #666 !important;">Team Management</small>
                                         </div>
                                         <div class="feature-item d-flex align-items-center mb-2">
                                             <i class="fas fa-chart-bar text-primary me-2"></i>
-                                            <small class="text-muted">Performance Analytics</small>
+                                            <small style="color: #666 !important;">Performance Analytics</small>
                                         </div>
                                         <div class="feature-item d-flex align-items-center">
                                             <i class="fas fa-edit text-primary me-2"></i>
-                                            <small class="text-muted">Feedback Management</small>
+                                            <small style="color: #666 !important;">Feedback Management</small>
                                         </div>
                                     </div>
                                     <button class="btn btn-primary btn-lg px-4">
@@ -72,23 +72,23 @@
                                             <i class="fas fa-user fa-2x text-success"></i>
                                         </div>
                                     </div>
-                                    <h4 class="fw-bold text-dark mb-3">Employee Portal</h4>
-                                    <p class="text-muted mb-4">
+                                    <h4 class="fw-bold mb-3" style="color: #333 !important;">Employee Portal</h4>
+                                    <p class="mb-4" style="color: #666 !important;">
                                         View your feedback history, acknowledge reviews, 
                                         and track your professional development
                                     </p>
                                     <div class="portal-features mb-4">
                                         <div class="feature-item d-flex align-items-center mb-2">
                                             <i class="fas fa-timeline text-success me-2"></i>
-                                            <small class="text-muted">Feedback Timeline</small>
+                                            <small style="color: #666 !important;">Feedback Timeline</small>
                                         </div>
                                         <div class="feature-item d-flex align-items-center mb-2">
                                             <i class="fas fa-check-circle text-success me-2"></i>
-                                            <small class="text-muted">Review Acknowledgment</small>
+                                            <small style="color: #666 !important;">Review Acknowledgment</small>
                                         </div>
                                         <div class="feature-item d-flex align-items-center">
                                             <i class="fas fa-trophy text-success me-2"></i>
-                                            <small class="text-muted">Growth Tracking</small>
+                                            <small style="color: #666 !important;">Growth Tracking</small>
                                         </div>
                                     </div>
                                     <button class="btn btn-success btn-lg px-4">
@@ -131,23 +131,23 @@
 
                         <!-- Demo Credentials -->
                         <div class="demo-credentials mt-4 p-3 bg-light rounded">
-                            <h6 class="fw-bold text-dark mb-3">
+                            <h6 class="fw-bold mb-3" style="color: #333 !important;">
                                 <i class="fas fa-info-circle me-2"></i>Demo Credentials
                             </h6>
                             <div id="managerCredentials" class="credential-section" style="display: none;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="fw-semibold">Manager Account:</span>
+                                    <span class="fw-semibold" style="color: #333 !important;">Manager Account:</span>
                                     <button class="btn btn-sm btn-outline-primary" onclick="fillCredentials('manager1', 'password123')">
                                         <i class="fas fa-copy me-1"></i>Use
                                     </button>
                                 </div>
-                                <div class="text-muted small mb-3">
+                                <div class="small mb-3" style="color: #666 !important;">
                                     Username: manager1 | Password: password123
                                 </div>
                             </div>
                             <div id="employeeCredentials" class="credential-section" style="display: none;">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span class="fw-semibold">Employee Accounts:</span>
+                                    <span class="fw-semibold" style="color: #333 !important;">Employee Accounts:</span>
                                 </div>
                                 <div class="row g-2">
                                     <div class="col-6">
@@ -171,33 +171,51 @@
 </div>
 
 <script>
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Login page loaded successfully');
+});
+
 function showLoginForm(type) {
-    const modal = new bootstrap.Modal(document.getElementById('loginModal'));
-    const title = document.getElementById('loginModalTitle');
-    const submitBtn = document.getElementById('loginSubmitBtn');
-    const managerCreds = document.getElementById('managerCredentials');
-    const employeeCreds = document.getElementById('employeeCredentials');
-    
-    if (type === 'manager') {
-        title.textContent = 'Manager Portal Login';
-        submitBtn.className = 'btn btn-primary btn-lg fw-semibold';
-        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In as Manager';
-        managerCreds.style.display = 'block';
-        employeeCreds.style.display = 'none';
-    } else {
-        title.textContent = 'Employee Portal Login';
-        submitBtn.className = 'btn btn-success btn-lg fw-semibold';
-        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In as Employee';
-        managerCreds.style.display = 'none';
-        employeeCreds.style.display = 'block';
+    try {
+        const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+        const title = document.getElementById('loginModalTitle');
+        const submitBtn = document.getElementById('loginSubmitBtn');
+        const managerCreds = document.getElementById('managerCredentials');
+        const employeeCreds = document.getElementById('employeeCredentials');
+        
+        console.log('Showing login form for:', type);
+        
+        if (type === 'manager') {
+            title.textContent = 'Manager Portal Login';
+            submitBtn.className = 'btn btn-primary btn-lg fw-semibold';
+            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In as Manager';
+            managerCreds.style.display = 'block';
+            employeeCreds.style.display = 'none';
+            console.log('Manager credentials section shown');
+        } else {
+            title.textContent = 'Employee Portal Login';
+            submitBtn.className = 'btn btn-success btn-lg fw-semibold';
+            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In as Employee';
+            managerCreds.style.display = 'none';
+            employeeCreds.style.display = 'block';
+            console.log('Employee credentials section shown');
+        }
+        
+        modal.show();
+    } catch (error) {
+        console.error('Error showing login form:', error);
     }
-    
-    modal.show();
 }
 
 function fillCredentials(username, password) {
-    document.getElementById('username').value = username;
-    document.getElementById('password').value = password;
+    try {
+        document.getElementById('username').value = username;
+        document.getElementById('password').value = password;
+        console.log('Credentials filled for:', username);
+    } catch (error) {
+        console.error('Error filling credentials:', error);
+    }
 }
 </script>
 {% endblock %}
