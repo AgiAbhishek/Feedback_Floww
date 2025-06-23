@@ -18,7 +18,7 @@ def init_data_store():
         'username': 'manager1',
         'password_hash': generate_password_hash('password123'),
         'role': 'manager',
-        'name': 'John Manager'
+        'name': 'Kunal'
     }
     
     users['employee1'] = {
@@ -26,7 +26,7 @@ def init_data_store():
         'username': 'employee1',
         'password_hash': generate_password_hash('password123'),
         'role': 'employee',
-        'name': 'Alice Employee'
+        'name': 'Ankit'
     }
     
     users['employee2'] = {
@@ -34,7 +34,7 @@ def init_data_store():
         'username': 'employee2',
         'password_hash': generate_password_hash('password123'),
         'role': 'employee',
-        'name': 'Bob Employee'
+        'name': 'Abhishek'
     }
     
     # Set up manager-employee relationships
