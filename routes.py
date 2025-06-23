@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, session
 from app import app
 from auth import login_required, manager_required, employee_access_required, get_current_user
-from data_store import (
+from models import (
     authenticate_user, get_user, get_employees_for_manager, is_manager_of_employee,
     add_feedback, update_feedback, get_feedback, get_feedback_for_employee,
     get_feedback_by_manager, acknowledge_feedback, get_sentiment_stats_for_manager,

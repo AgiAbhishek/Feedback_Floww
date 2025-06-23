@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import session, redirect, url_for, flash
-from data_store import get_user, is_manager_of_employee
+from models import get_user, is_manager_of_employee
 
 def login_required(f):
     """Decorator to require login for routes"""
