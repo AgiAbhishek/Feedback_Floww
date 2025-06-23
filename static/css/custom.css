@@ -1,4 +1,128 @@
-/* Custom styles for feedback tool */
+/* Custom styles for FeedbackHub */
+.bg-gradient {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.employee-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.employee-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.avatar-circle {
+    transition: transform 0.2s ease;
+}
+
+.avatar-circle:hover {
+    transform: scale(1.1);
+}
+
+.feedback-timeline .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.feedback-timeline .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    border: 3px solid var(--bs-body-bg);
+    z-index: 1;
+}
+
+.feedback-timeline .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 35px;
+    width: 2px;
+    height: calc(100% + 1rem);
+    background-color: var(--bs-border-color);
+}
+
+.feedback-timeline {
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 2px solid var(--bs-border-color);
+}
+
+.strength-preview, .improvement-preview {
+    transition: transform 0.2s ease;
+}
+
+.strength-preview:hover, .improvement-preview:hover {
+    transform: translateY(-1px);
+}
+
+.demo-account {
+    transition: transform 0.2s ease;
+}
+
+.demo-account:hover {
+    transform: translateY(-1px);
+}
+
+/* Enhanced form styling */
+.form-control-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+}
+
+.form-control:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Enhanced button styling */
+.btn {
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--bs-primary), var(--bs-info));
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, var(--bs-info), var(--bs-primary));
+}
+
+/* Stat cards animation */
+.stat-item {
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: scale(1.05);
+}
+
+/* Empty state styling */
+.empty-state {
+    padding: 3rem 2rem;
+}
+
+.empty-state i {
+    opacity: 0.5;
+}
+
+/* Timeline improvements */
 .timeline {
     position: relative;
 }

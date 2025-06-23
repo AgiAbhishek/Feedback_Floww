@@ -1,55 +1,108 @@
 {% extends "base.html" %}
 
-{% block title %}Manager Dashboard - Feedback Tool{% endblock %}
+{% block title %}Manager Dashboard - FeedbackHub{% endblock %}
 
 {% block content %}
-<div class="row">
+<!-- Welcome Header -->
+<div class="row mb-4">
     <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-tachometer-alt me-2"></i>Manager Dashboard</h2>
-            <span class="badge bg-primary">{{ employees|length }} Team Members</span>
+        <div class="card bg-gradient border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="display-6 mb-2 text-white">
+                            <i class="fas fa-user-tie me-3 text-warning"></i>Manager Dashboard
+                        </h1>
+                        <p class="lead mb-0 text-white-50">Welcome back, {{ user.name }}</p>
+                    </div>
+                    <div class="text-end">
+                        <div class="badge bg-warning text-dark fs-6 px-3 py-2">
+                            <i class="fas fa-users me-2"></i>{{ employees|length }} Team Members
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Sentiment Overview -->
+<!-- Quick Stats Overview -->
 <div class="row mb-4">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Team Sentiment Overview</h5>
-            </div>
-            <div class="card-body">
-                <canvas id="sentimentChart" height="100"></canvas>
+    <div class="col-md-3">
+        <div class="card text-center border-0 shadow-sm bg-success bg-opacity-10">
+            <div class="card-body py-4">
+                <i class="fas fa-smile fa-3x text-success mb-3"></i>
+                <h2 class="display-6 fw-bold text-success">{{ sentiment_stats.positive }}</h2>
+                <p class="text-success fw-semibold mb-0">Positive Feedback</p>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Quick Stats</h5>
+    <div class="col-md-3">
+        <div class="card text-center border-0 shadow-sm bg-warning bg-opacity-10">
+            <div class="card-body py-4">
+                <i class="fas fa-meh fa-3x text-warning mb-3"></i>
+                <h2 class="display-6 fw-bold text-warning">{{ sentiment_stats.neutral }}</h2>
+                <p class="text-warning fw-semibold mb-0">Neutral Feedback</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-0 shadow-sm bg-danger bg-opacity-10">
+            <div class="card-body py-4">
+                <i class="fas fa-frown fa-3x text-danger mb-3"></i>
+                <h2 class="display-6 fw-bold text-danger">{{ sentiment_stats.negative }}</h2>
+                <p class="text-danger fw-semibold mb-0">Needs Attention</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-0 shadow-sm bg-info bg-opacity-10">
+            <div class="card-body py-4">
+                <i class="fas fa-chart-line fa-3x text-info mb-3"></i>
+                <h2 class="display-6 fw-bold text-info">{{ (sentiment_stats.positive + sentiment_stats.neutral + sentiment_stats.negative) }}</h2>
+                <p class="text-info fw-semibold mb-0">Total Feedback</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sentiment Chart -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0 text-dark">
+                    <i class="fas fa-chart-pie me-2 text-primary"></i>Team Sentiment Overview
+                </h5>
             </div>
             <div class="card-body">
-                <div class="row text-center">
-                    <div class="col-4">
-                        <div class="text-success">
-                            <i class="fas fa-smile fa-2x"></i>
-                            <div class="mt-2">{{ sentiment_stats.positive }}</div>
-                            <small class="text-muted">Positive</small>
-                        </div>
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <canvas id="sentimentChart" height="120"></canvas>
                     </div>
-                    <div class="col-4">
-                        <div class="text-warning">
-                            <i class="fas fa-meh fa-2x"></i>
-                            <div class="mt-2">{{ sentiment_stats.neutral }}</div>
-                            <small class="text-muted">Neutral</small>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="text-danger">
-                            <i class="fas fa-frown fa-2x"></i>
-                            <div class="mt-2">{{ sentiment_stats.negative }}</div>
-                            <small class="text-muted">Negative</small>
+                    <div class="col-md-4">
+                        <div class="sentiment-legend">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="legend-color bg-success me-3" style="width: 20px; height: 20px; border-radius: 50%;"></div>
+                                <div>
+                                    <strong>Positive</strong>
+                                    <p class="mb-0 text-muted small">Exceeding expectations</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="legend-color bg-warning me-3" style="width: 20px; height: 20px; border-radius: 50%;"></div>
+                                <div>
+                                    <strong>Neutral</strong>
+                                    <p class="mb-0 text-muted small">Meeting expectations</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="legend-color bg-danger me-3" style="width: 20px; height: 20px; border-radius: 50%;"></div>
+                                <div>
+                                    <strong>Negative</strong>
+                                    <p class="mb-0 text-muted small">Below expectations</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,41 +114,67 @@
 <!-- Team Overview -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-users me-2"></i>Team Overview</h5>
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-dark">
+                    <i class="fas fa-users me-2 text-primary"></i>Your Team
+                </h5>
+                <span class="badge bg-primary">{{ employees|length }} members</span>
             </div>
-            <div class="card-body">
-                <div class="row">
+            <div class="card-body p-4">
+                <div class="row g-4">
                     {% for employee in employees %}
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h6 class="card-title mb-0">{{ employee.name }}</h6>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm employee-card">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar-circle bg-primary text-white me-3 d-flex align-items-center justify-content-center" 
+                                         style="width: 48px; height: 48px; border-radius: 50%;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="card-title mb-1 fw-bold">{{ employee.name }}</h6>
+                                        <small class="text-muted">Team Member</small>
+                                    </div>
                                     {% if feedback_summary[employee.id].unacknowledged > 0 %}
-                                    <span class="badge bg-warning">{{ feedback_summary[employee.id].unacknowledged }} unread</span>
+                                    <span class="badge bg-warning text-dark">
+                                        {{ feedback_summary[employee.id].unacknowledged }} unread
+                                    </span>
                                     {% endif %}
                                 </div>
                                 
-                                <p class="card-text text-muted mb-2">
-                                    <small>{{ feedback_summary[employee.id].total_feedback }} feedback entries</small>
-                                </p>
+                                <div class="stats-grid mb-3">
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <div class="stat-item">
+                                                <div class="fw-bold text-primary fs-5">{{ feedback_summary[employee.id].total_feedback }}</div>
+                                                <small class="text-muted">Feedback</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="stat-item">
+                                                {% if feedback_summary[employee.id].latest_feedback %}
+                                                <div class="fw-bold text-success fs-6">
+                                                    {{ feedback_summary[employee.id].latest_feedback.created_at.strftime('%b %d') }}
+                                                </div>
+                                                <small class="text-muted">Last feedback</small>
+                                                {% else %}
+                                                <div class="fw-bold text-muted fs-6">-</div>
+                                                <small class="text-muted">No feedback</small>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 
-                                {% if feedback_summary[employee.id].latest_feedback %}
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        Last feedback: {{ feedback_summary[employee.id].latest_feedback.created_at.strftime('%b %d, %Y') }}
-                                    </small>
-                                </p>
-                                {% endif %}
-                                
-                                <div class="btn-group w-100" role="group">
-                                    <a href="{{ url_for('submit_feedback', employee_id=employee.id) }}" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-plus"></i> Give Feedback
+                                <div class="d-grid gap-2">
+                                    <a href="{{ url_for('submit_feedback', employee_id=employee.id) }}" 
+                                       class="btn btn-primary btn-sm">
+                                        <i class="fas fa-plus me-2"></i>Give Feedback
                                     </a>
-                                    <a href="{{ url_for('feedback_history', employee_id=employee.id) }}" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fas fa-history"></i> History
+                                    <a href="{{ url_for('feedback_history', employee_id=employee.id) }}" 
+                                       class="btn btn-outline-secondary btn-sm">
+                                        <i class="fas fa-history me-2"></i>View History
                                     </a>
                                 </div>
                             </div>
@@ -111,42 +190,82 @@
 <!-- Recent Feedback -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Feedback</h5>
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h5 class="mb-0 text-dark">
+                    <i class="fas fa-clock me-2 text-primary"></i>Recent Feedback Activity
+                </h5>
             </div>
             <div class="card-body">
                 {% if recent_feedback %}
-                <div class="list-group list-group-flush">
+                <div class="feedback-timeline">
                     {% for feedback in recent_feedback %}
-                    <div class="list-group-item">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">
-                                    {{ get_user(feedback.employee_id).name }}
-                                    <span class="badge bg-{{ 'success' if feedback.sentiment == 'positive' else 'warning' if feedback.sentiment == 'neutral' else 'danger' }} ms-2">
-                                        {{ feedback.sentiment.title() }}
-                                    </span>
-                                </h6>
-                                <p class="mb-1">{{ feedback.strengths[:100] }}...</p>
-                                <small class="text-muted">{{ feedback.created_at.strftime('%b %d, %Y at %I:%M %p') }}</small>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <a href="{{ url_for('edit_feedback', feedback_id=feedback.id) }}" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                    <div class="timeline-item mb-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-circle bg-secondary text-white me-3 d-flex align-items-center justify-content-center" 
+                                             style="width: 40px; height: 40px; border-radius: 50%;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">{{ get_user(feedback.employee_id).name }}</h6>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i>
+                                                {{ feedback.created_at.strftime('%b %d, %Y at %I:%M %p') }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-{{ 'success' if feedback.sentiment == 'positive' else 'warning' if feedback.sentiment == 'neutral' else 'danger' }} px-3 py-2">
+                                            <i class="fas fa-{{ 'smile' if feedback.sentiment == 'positive' else 'meh' if feedback.sentiment == 'neutral' else 'frown' }} me-1"></i>
+                                            {{ feedback.sentiment.title() }}
+                                        </span>
+                                        <a href="{{ url_for('edit_feedback', feedback_id=feedback.id) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit me-1"></i>Edit
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div class="feedback-preview">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="strength-preview p-3 bg-success bg-opacity-10 rounded">
+                                                <h6 class="text-success mb-2">
+                                                    <i class="fas fa-thumbs-up me-1"></i>Strengths
+                                                </h6>
+                                                <p class="mb-0 small">{{ feedback.strengths[:120] }}{% if feedback.strengths|length > 120 %}...{% endif %}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="improvement-preview p-3 bg-info bg-opacity-10 rounded">
+                                                <h6 class="text-info mb-2">
+                                                    <i class="fas fa-arrow-up me-1"></i>Areas to Improve
+                                                </h6>
+                                                <p class="mb-0 small">{{ feedback.areas_to_improve[:120] }}{% if feedback.areas_to_improve|length > 120 %}...{% endif %}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
                 {% else %}
-                <div class="text-center py-4">
-                    <i class="fas fa-comment-slash fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">No feedback submitted yet.</p>
-                    <a href="{{ url_for('submit_feedback', employee_id=employees[0].id) if employees else '#' }}" class="btn btn-primary">
-                        <i class="fas fa-plus me-2"></i>Submit First Feedback
-                    </a>
+                <div class="text-center py-5">
+                    <div class="empty-state">
+                        <i class="fas fa-comment-dots fa-4x text-muted mb-4"></i>
+                        <h4 class="text-muted mb-3">Ready to Start Giving Feedback?</h4>
+                        <p class="text-muted mb-4">Your team is waiting for your valuable insights and guidance.</p>
+                        {% if employees %}
+                        <a href="{{ url_for('submit_feedback', employee_id=employees[0].id) }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus me-2"></i>Give Your First Feedback
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
                 {% endif %}
             </div>

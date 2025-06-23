@@ -10,10 +10,11 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
-                <i class="fas fa-comments me-2"></i>Feedback Tool
+            <a class="navbar-brand fw-bold" href="{{ url_for('dashboard') }}">
+                <i class="fas fa-comments me-2 text-warning"></i>
+                <span class="text-white">FeedbackHub</span>
             </a>
             
             {% if session.user_id %}
@@ -50,9 +51,9 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user me-1"></i>{{ get_current_user().name if get_current_user() else 'User' }}
+                            <i class="fas fa-user-circle me-1"></i>{{ get_current_user().name if get_current_user() else 'User' }}
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ url_for('logout') }}">
                                 <i class="fas fa-sign-out-alt me-1"></i>Logout
                             </a></li>
@@ -69,7 +70,8 @@
         {% if messages %}
         <div class="container mt-3">
             {% for category, message in messages %}
-            <div class="alert alert-{{ 'danger' if category == 'error' else 'primary' if category == 'info' else 'warning' if category == 'warning' else 'success' }} alert-dismissible fade show" role="alert">
+            <div class="alert alert-{{ 'danger' if category == 'error' else 'info' if category == 'info' else 'warning' if category == 'warning' else 'success' }} alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fas fa-{{ 'exclamation-triangle' if category == 'error' else 'info-circle' if category == 'info' else 'exclamation-circle' if category == 'warning' else 'check-circle' }} me-2"></i>
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -84,9 +86,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-3 mt-5">
+    <footer class="bg-dark text-light py-4 mt-5 border-top">
         <div class="container text-center">
-            <small>&copy; 2025 Internal Feedback Tool. All rights reserved.</small>
+            <div class="row">
+                <div class="col-md-6">
+                    <small class="text-muted">&copy; 2025 FeedbackHub. Internal Use Only.</small>
+                </div>
+                <div class="col-md-6">
+                    <small class="text-muted">Empowering teams through structured feedback</small>
+                </div>
+            </div>
         </div>
     </footer>
 

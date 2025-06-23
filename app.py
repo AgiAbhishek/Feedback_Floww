@@ -20,6 +20,18 @@ app.config['SESSION_USE_SIGNER'] = True
 from data_store import init_data_store
 init_data_store()
 
+# Make functions available to templates
+from auth import get_current_user
+from data_store import get_user, get_employees_for_manager
+
+@app.context_processor
+def inject_template_functions():
+    return {
+        'get_current_user': get_current_user,
+        'get_user': get_user,
+        'get_employees_for_manager': get_employees_for_manager
+    }
+
 # Import routes
 from routes import *
 
