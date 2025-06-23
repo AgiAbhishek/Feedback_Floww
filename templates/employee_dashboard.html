@@ -1,15 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}Employee Dashboard - Feedback Tool{% endblock %}
+{% block title %}Employee Dashboard - FeedbackHub{% endblock %}
 
 {% block content %}
-<div class="row">
+<!-- Welcome Header -->
+<div class="row mb-4">
     <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-user me-2"></i>My Feedback</h2>
-            {% if unacknowledged > 0 %}
-            <span class="badge bg-warning">{{ unacknowledged }} unread</span>
-            {% endif %}
+        <div class="card bg-gradient border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="display-6 mb-2 text-white">
+                            <i class="fas fa-user me-3 text-warning"></i>My Feedback
+                        </h1>
+                        <p class="lead mb-0 text-white-50">Welcome back, {{ user.name }}</p>
+                    </div>
+                    {% if unacknowledged > 0 %}
+                    <div class="text-end">
+                        <div class="badge bg-warning text-dark fs-6 px-3 py-2">
+                            <i class="fas fa-envelope me-2"></i>{{ unacknowledged }} unread
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -17,49 +31,51 @@
 <!-- Statistics Overview -->
 <div class="row mb-4">
     <div class="col-md-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <i class="fas fa-comments fa-2x text-primary mb-2"></i>
-                <h4 class="card-title">{{ total_feedback }}</h4>
-                <p class="card-text">Total Feedback</p>
+        <div class="card text-center border-0 shadow-sm bg-primary bg-opacity-10">
+            <div class="card-body py-4">
+                <i class="fas fa-comments fa-3x text-primary mb-3"></i>
+                <h2 class="display-6 fw-bold text-primary">{{ total_feedback }}</h2>
+                <p class="text-primary fw-semibold mb-0">Total Feedback</p>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-center">
-            <div class="card-body">
-                <i class="fas fa-envelope fa-2x text-warning mb-2"></i>
-                <h4 class="card-title">{{ unacknowledged }}</h4>
-                <p class="card-text">Unread</p>
+        <div class="card text-center border-0 shadow-sm bg-warning bg-opacity-10">
+            <div class="card-body py-4">
+                <i class="fas fa-envelope fa-3x text-warning mb-3"></i>
+                <h2 class="display-6 fw-bold text-warning">{{ unacknowledged }}</h2>
+                <p class="text-warning fw-semibold mb-0">Unread</p>
             </div>
         </div>
     </div>
     <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Feedback Sentiment</h6>
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-light">
+                <h6 class="mb-0 text-dark">
+                    <i class="fas fa-chart-bar me-2 text-primary"></i>Feedback Sentiment Breakdown
+                </h6>
             </div>
             <div class="card-body">
-                <div class="row text-center">
+                <div class="row text-center g-3">
                     <div class="col-4">
-                        <div class="text-success">
-                            <i class="fas fa-smile fa-lg"></i>
-                            <div class="mt-1">{{ sentiment_counts.positive }}</div>
-                            <small class="text-muted">Positive</small>
+                        <div class="sentiment-stat p-3 bg-success bg-opacity-10 rounded">
+                            <i class="fas fa-smile fa-2x text-success mb-2"></i>
+                            <div class="h4 fw-bold text-success">{{ sentiment_counts.positive }}</div>
+                            <small class="text-success fw-semibold">Positive</small>
                         </div>
                     </div>
                     <div class="col-4">
-                        <div class="text-warning">
-                            <i class="fas fa-meh fa-lg"></i>
-                            <div class="mt-1">{{ sentiment_counts.neutral }}</div>
-                            <small class="text-muted">Neutral</small>
+                        <div class="sentiment-stat p-3 bg-warning bg-opacity-10 rounded">
+                            <i class="fas fa-meh fa-2x text-warning mb-2"></i>
+                            <div class="h4 fw-bold text-warning">{{ sentiment_counts.neutral }}</div>
+                            <small class="text-warning fw-semibold">Neutral</small>
                         </div>
                     </div>
                     <div class="col-4">
-                        <div class="text-danger">
-                            <i class="fas fa-frown fa-lg"></i>
-                            <div class="mt-1">{{ sentiment_counts.negative }}</div>
-                            <small class="text-muted">Negative</small>
+                        <div class="sentiment-stat p-3 bg-danger bg-opacity-10 rounded">
+                            <i class="fas fa-frown fa-2x text-danger mb-2"></i>
+                            <div class="h4 fw-bold text-danger">{{ sentiment_counts.negative }}</div>
+                            <small class="text-danger fw-semibold">Needs Focus</small>
                         </div>
                     </div>
                 </div>
