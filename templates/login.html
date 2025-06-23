@@ -3,104 +3,46 @@
 {% block title %}Login - FeedbackHub{% endblock %}
 
 {% block content %}
-<div class="login-container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7">
-                <!-- Professional Login Card -->
-                <div class="login-card bg-white rounded-4 shadow-lg border-0 overflow-hidden">
-                    <!-- Header Section -->
-                    <div class="login-header header-gradient text-center py-5">
-                        <div class="login-brand mb-4">
-                            <div class="brand-icon bg-white bg-opacity-20 rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" 
-                                 style="width: 80px; height: 80px;">
-                                <i class="fas fa-comments fa-2x text-white"></i>
-                            </div>
-                            <h1 class="display-6 fw-bold text-white mb-2">FeedbackHub</h1>
-                            <p class="text-white-50 mb-0">Professional Performance Management</p>
-                        </div>
+<div class="row justify-content-center min-vh-75 align-items-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h4 class="mb-0 fw-bold">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
                     </div>
                     
-                    <!-- Login Form -->
-                    <div class="login-body p-5">
-                        <div class="text-center mb-4">
-                            <h3 class="fw-bold text-dark mb-2">Welcome Back</h3>
-                            <p class="text-muted">Sign in to access your dashboard</p>
-                        </div>
-                        
-                        <form method="POST" class="login-form">
-                            <div class="form-floating mb-4">
-                                <input type="text" class="form-control form-control-lg" id="username" name="username" 
-                                       placeholder="Username" required>
-                                <label for="username">
-                                    <i class="fas fa-user me-2 text-muted"></i>Username
-                                </label>
-                            </div>
-                            
-                            <div class="form-floating mb-4">
-                                <input type="password" class="form-control form-control-lg" id="password" name="password" 
-                                       placeholder="Password" required>
-                                <label for="password">
-                                    <i class="fas fa-lock me-2 text-muted"></i>Password
-                                </label>
-                            </div>
-                            
-                            <div class="d-grid mb-4">
-                                <button type="submit" class="btn btn-primary btn-lg fw-semibold py-3">
-                                    <i class="fas fa-sign-in-alt me-2"></i>Sign In to Dashboard
-                                </button>
-                            </div>
-                        </form>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="mb-0">Demo Accounts</h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-2"><strong>Manager:</strong></p>
+                <p class="mb-2 text-muted">Username: manager1 | Password: password123</p>
                 
-                <!-- Demo Accounts Section -->
-                <div class="demo-section mt-4">
-                    <div class="card bg-white rounded-4 shadow-sm border-0">
-                        <div class="card-header bg-transparent border-0 text-center py-3">
-                            <h6 class="fw-semibold text-dark mb-0">
-                                <i class="fas fa-info-circle me-2 text-primary"></i>Demo Access
-                            </h6>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="demo-card bg-gradient-success rounded-3 p-3 text-center">
-                                        <div class="demo-icon bg-white bg-opacity-20 rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" 
-                                             style="width: 40px; height: 40px;">
-                                            <i class="fas fa-user-tie text-white"></i>
-                                        </div>
-                                        <h6 class="text-white fw-bold mb-2">Manager Portal</h6>
-                                        <div class="credential-box bg-white bg-opacity-20 rounded p-2 mb-2">
-                                            <div class="text-white small mb-1">manager1</div>
-                                            <div class="text-white small">password123</div>
-                                        </div>
-                                        <small class="text-white-50">Full team management access</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="demo-card bg-gradient-info rounded-3 p-3 text-center">
-                                        <div class="demo-icon bg-white bg-opacity-20 rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center" 
-                                             style="width: 40px; height: 40px;">
-                                            <i class="fas fa-users text-white"></i>
-                                        </div>
-                                        <h6 class="text-white fw-bold mb-2">Employee Portal</h6>
-                                        <div class="credential-box bg-white bg-opacity-20 rounded p-2 mb-2">
-                                            <div class="text-white small mb-1">employee1 / employee2</div>
-                                            <div class="text-white small">password123</div>
-                                        </div>
-                                        <small class="text-white-50">Personal feedback dashboard</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center mt-3">
-                                <small class="text-muted">
-                                    <i class="fas fa-shield-alt me-1"></i>Secure demo environment for evaluation
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p class="mb-2 mt-3"><strong>Employees:</strong></p>
+                <p class="mb-1 text-muted">Username: employee1 | Password: password123</p>
+                <p class="mb-0 text-muted">Username: employee2 | Password: password123</p>
             </div>
         </div>
     </div>
