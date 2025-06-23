@@ -387,18 +387,79 @@
     border-radius: 0.5rem;
 }
 
+/* Professional Layout */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+}
+
+/* Rounded corners for all main sections */
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+/* Glass morphism effect for cards */
+.metric-card, .employee-card, .feedback-card, .professional-header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Professional spacing */
+.section-spacing {
+    margin-bottom: 2.5rem;
+}
+
+/* Enhanced shadows */
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
 /* Navigation improvements */
 .navbar-brand {
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.35rem;
 }
 
 .navbar-nav .nav-link {
     font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    transform: translateY(-1px);
+}
+
+/* Professional typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    font-weight: 600;
+}
+
+.display-5, .display-6 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Improved form controls */
+.form-control, .form-select {
+    border: 1px solid #e0e6ed;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
 }
 
 /* Footer styles */
 footer {
     margin-top: auto;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
 }
 
 body {
@@ -409,4 +470,27 @@ body {
 
 main {
     flex: 1;
+}
+
+/* Professional loading states */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .display-5 { font-size: 2rem; }
+    .display-6 { font-size: 1.5rem; }
+    
+    .metric-card .card-body { padding: 1.5rem; }
+    .employee-card .card-body { padding: 1.5rem; }
+    
+    .header-gradient { padding: 2rem !important; }
 }
