@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Manager Dashboard - Feedback Tool{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-tachometer-alt me-2"></i>Manager Dashboard</h2>
+            <span class="badge bg-primary">{{ employees|length }} Team Members</span>
+        </div>
+    </div>
+</div>
+
+<!-- Sentiment Overview -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Team Sentiment Overview</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="sentimentChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="text-success">
+                            <i class="fas fa-smile fa-2x"></i>
+                            <div class="mt-2">{{ sentiment_stats.positive }}</div>
+                            <small class="text-muted">Positive</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-warning">
+                            <i class="fas fa-meh fa-2x"></i>
+                            <div class="mt-2">{{ sentiment_stats.neutral }}</div>
+                            <small class="text-muted">Neutral</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-danger">
+                            <i class="fas fa-frown fa-2x"></i>
+                            <div class="mt-2">{{ sentiment_stats.negative }}</div>
+                            <small class="text-muted">Negative</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-users me-2"></i>Team Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for employee in employees %}
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="card-title mb-0">{{ employee.name }}</h6>
+                                    {% if feedback_summary[employee.id].unacknowledged > 0 %}
+                                    <span class="badge bg-warning">{{ feedback_summary[employee.id].unacknowledged }} unread</span>
+                                    {% endif %}
+                                </div>
+                                
+                                <p class="card-text text-muted mb-2">
+                                    <small>{{ feedback_summary[employee.id].total_feedback }} feedback entries</small>
+                                </p>
+                                
+                                {% if feedback_summary[employee.id].latest_feedback %}
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Last feedback: {{ feedback_summary[employee.id].latest_feedback.created_at.strftime('%b %d, %Y') }}
+                                    </small>
+                                </p>
+                                {% endif %}
+                                
+                                <div class="btn-group w-100" role="group">
+                                    <a href="{{ url_for('submit_feedback', employee_id=employee.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-plus"></i> Give Feedback
+                                    </a>
+                                    <a href="{{ url_for('feedback_history', employee_id=employee.id) }}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-history"></i> History
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Feedback -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Feedback</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_feedback %}
+                <div class="list-group list-group-flush">
+                    {% for feedback in recent_feedback %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                    {{ get_user(feedback.employee_id).name }}
+                                    <span class="badge bg-{{ 'success' if feedback.sentiment == 'positive' else 'warning' if feedback.sentiment == 'neutral' else 'danger' }} ms-2">
+                                        {{ feedback.sentiment.title() }}
+                                    </span>
+                                </h6>
+                                <p class="mb-1">{{ feedback.strengths[:100] }}...</p>
+                                <small class="text-muted">{{ feedback.created_at.strftime('%b %d, %Y at %I:%M %p') }}</small>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('edit_feedback', feedback_id=feedback.id) }}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-comment-slash fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No feedback submitted yet.</p>
+                    <a href="{{ url_for('submit_feedback', employee_id=employees[0].id) if employees else '#' }}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Submit First Feedback
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Chart.js configuration for sentiment overview
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Positive', 'Neutral', 'Negative'],
+            datasets: [{
+                data: [{{ sentiment_stats.positive }}, {{ sentiment_stats.neutral }}, {{ sentiment_stats.negative }}],
+                backgroundColor: [
+                    'rgba(40, 167, 69, 0.8)',
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(220, 53, 69, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(255, 193, 7, 1)',
+                    'rgba(220, 53, 69, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

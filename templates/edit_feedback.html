@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Feedback - Feedback Tool{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit me-2"></i>Edit Feedback for {{ employee.name }}
+                </h4>
+                <small class="text-muted">
+                    Originally submitted: {{ feedback.created_at.strftime('%B %d, %Y at %I:%M %p') }}
+                </small>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-4">
+                        <label for="strengths" class="form-label">
+                            <i class="fas fa-thumbs-up text-success me-1"></i>Strengths
+                        </label>
+                        <textarea class="form-control" id="strengths" name="strengths" rows="4" required>{{ feedback.strengths }}</textarea>
+                        <div class="form-text">Highlight specific achievements, skills, and positive behaviors.</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="areas_to_improve" class="form-label">
+                            <i class="fas fa-arrow-up text-info me-1"></i>Areas to Improve
+                        </label>
+                        <textarea class="form-control" id="areas_to_improve" name="areas_to_improve" rows="4" required>{{ feedback.areas_to_improve }}</textarea>
+                        <div class="form-text">Provide constructive suggestions for improvement and development opportunities.</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="sentiment" class="form-label">
+                            <i class="fas fa-chart-line me-1"></i>Overall Sentiment
+                        </label>
+                        <select class="form-select" id="sentiment" name="sentiment" required>
+                            <option value="positive" {{ 'selected' if feedback.sentiment == 'positive' else '' }}>
+                                Positive - Exceeding expectations
+                            </option>
+                            <option value="neutral" {{ 'selected' if feedback.sentiment == 'neutral' else '' }}>
+                                Neutral - Meeting expectations
+                            </option>
+                            <option value="negative" {{ 'selected' if feedback.sentiment == 'negative' else '' }}>
+                                Negative - Below expectations
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> Editing this feedback will update the "last modified" timestamp. 
+                        The employee will see that the feedback has been updated.
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('manager_dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Update Feedback
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
