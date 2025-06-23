@@ -11,18 +11,13 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key-change-in-production")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# Configure session
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_PERMANENT'] = False
-app.config['SESSION_USE_SIGNER'] = True
-
-# Initialize data store
-from data_store import init_data_store
-init_data_store()
+# Initialize SQLite database
+from models import init_database
+init_database()
 
 # Make functions available to templates
 from auth import get_current_user
-from data_store import get_user, get_employees_for_manager
+from models import get_user, get_employees_for_manager
 
 @app.context_processor
 def inject_template_functions():
