@@ -10,7 +10,13 @@ def init_database():
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
     
-    # Drop existing tables
+    # Check if tables already exist
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users'")
+    if cursor.fetchone():
+        conn.close()
+        return  # Database already initialized
+    
+    # Drop existing tables if any
     cursor.execute('DROP TABLE IF EXISTS feedback')
     cursor.execute('DROP TABLE IF EXISTS manager_employee')
     cursor.execute('DROP TABLE IF EXISTS users')
@@ -210,13 +216,29 @@ def get_sentiment_stats_for_manager(manager_id):
 def get_employee_feedback_summary(employee_ids):
     """Get feedback summary for a list of employees"""
     conn = get_db_connection()
-    placeholders = ','.join('?' * len(employee_ids))
-    summary = conn.execute(f'''
-        SELECT employee_id, COUNT(*) as total_feedback,
-               COUNT(CASE WHEN acknowledged = 1 THEN 1 END) as acknowledged_count
-        FROM feedback 
-        WHERE employee_id IN ({placeholders})
-        GROUP BY employee_id
-    ''', employee_ids).fetchall()
+    
+    # Initialize summary for all employees
+    summary = {}
+    for emp_id in employee_ids:
+        summary[emp_id] = {
+            'total_feedback': 0,
+            'acknowledged_count': 0,
+            'unacknowledged': 0
+        }
+    
+    if employee_ids:
+        placeholders = ','.join('?' * len(employee_ids))
+        results = conn.execute(f'''
+            SELECT employee_id, COUNT(*) as total_feedback,
+                   COUNT(CASE WHEN acknowledged = 1 THEN 1 END) as acknowledged_count,
+                   COUNT(CASE WHEN acknowledged = 0 THEN 1 END) as unacknowledged
+            FROM feedback 
+            WHERE employee_id IN ({placeholders})
+            GROUP BY employee_id
+        ''', employee_ids).fetchall()
+        
+        for row in results:
+            summary[row['employee_id']] = dict(row)
+    
     conn.close()
-    return {row['employee_id']: dict(row) for row in summary}
+    return summary
