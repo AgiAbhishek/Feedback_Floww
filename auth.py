@@ -22,7 +22,7 @@ def manager_required(f):
         
         user = get_user(session['user_id'])
         if not user or user['role'] != 'manager':
-            flash('Manager access required.', 'error')
+            flash('Access denied. Manager role required.', 'danger')
             return redirect(url_for('dashboard'))
         
         return f(*args, **kwargs)
@@ -38,20 +38,21 @@ def employee_access_required(f):
         
         user = get_user(session['user_id'])
         if not user:
-            flash('Invalid user session.', 'error')
+            flash('User not found.', 'danger')
             return redirect(url_for('login'))
         
-        # Extract employee_id from kwargs if present
-        employee_id = kwargs.get('employee_id')
-        if employee_id:
-            # Manager can access their employees' data
-            if user['role'] == 'manager' and is_manager_of_employee(user['id'], employee_id):
-                return f(*args, **kwargs)
-            # Employee can only access their own data
-            elif user['role'] == 'employee' and user['id'] == employee_id:
-                return f(*args, **kwargs)
-            else:
-                flash('Access denied.', 'error')
+        # Extract employee_id from route parameters
+        employee_id = kwargs.get('employee_id') or kwargs.get('user_id')
+        
+        if user['role'] == 'manager':
+            # Managers can access their employees' data
+            if employee_id and not is_manager_of_employee(user['id'], employee_id):
+                flash('Access denied. You can only view data for your team members.', 'danger')
+                return redirect(url_for('dashboard'))
+        elif user['role'] == 'employee':
+            # Employees can only access their own data
+            if employee_id and int(employee_id) != user['id']:
+                flash('Access denied. You can only view your own data.', 'danger')
                 return redirect(url_for('dashboard'))
         
         return f(*args, **kwargs)
